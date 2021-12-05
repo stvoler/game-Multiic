@@ -1,0 +1,10 @@
+{
+  "name": "multiic-server",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Test webserver",
+  "author": "Stvoler",
+  "dependencies": {
+    "socket.io": "1.0.6"
+  }
+}

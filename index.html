@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <title>Multiic</title>
+    <link href="css/style.css" rel="stylesheet">
+    <script src="libs/three.min.js"></script><script src="libs/jq35.js"></script><script src="libs/THREEx.KeyboardState.js"></script><script src="libs/THREEx.WindowResize.js"></script><!--<script src="libs/Stats.js"></script>-->
+</head>
+<body>
+<audio id="song" autoplay="autoplay" loop="loop"><source src="sound/main2.mp3" type="audio/mpeg"></audio>
+<!--<div id="stats"></div>-->
+<div id="main">
+    <div id="menu"></div>
+    <p id="statusCenter"></p> 
+    <div class="top"><div id="status"></div><div id="statusEnemies"></div></div>
+    <div id="container"></div>
+</div>
+<div id="weapons"><ol><li><img id="weapon1" src="img/smallshot.png"/></li><li><img id="weapon2" src="img/tromb.png"/></li><li><img id="weapon3" src="img/bomb.png"/></li></ol></div>
+<div class="sound"><a href="javascript:MuteSound();" id="muteSound"><img src="img/box_checked.png"/>Sound</a><a href="javascript:MuteSong();" id="muteSong"><img src="img/box_checked.png"/>Music</a></div>
+<div style="display: none;" id="selectMap"><ul><li><a href="javascript:Start(1);">1. Lava</a></li><li><a href="javascript:Start(2);">2. Island</a></li><li><a href="javascript:Start(3);">3. North</a></li><li><a href="javascript:Start(4);">4. Beach</a></li><li><a href="javascript:Start(5);">5. Space</a></li><li><a href="terrain.html">Terrain TEST</a></li><li><a href="javascript:Menu();">Back to Menu</a></li></ul></div>
+<div id="menu_content" style="display: none;"><h1>Multiic</h1><ul><li><a href="javascript:Start(1);">New Game</a></li><li><a href="javascript:SelectMap();">Select Map</a></li></ul></div>
+<script src="js/utils.js"></script><script src="js/block.js"></script><script src="js/pool.js"></script><script src="js/chunk.js"></script><script src="js/world.js"></script><script src="js/vox.js"></script><script src="js/objects.js"></script><script src="js/player.js"></script><script src="js/enemies.js"></script><script src="js/physblock.js"></script><script src="js/shot.js"></script><script src="js/loader.js"></script><script src="js/items.js"></script><script src="js/princess.js"></script><script src="js/chunkManager.js"></script><script src="js/procObjects.js"></script><script src="js/mapManager.js"></script><script src="js/main.js"></script>
+</body>
+<script>
+$(document).ready( function() {
+    $('#menu').html($('#menu_content').html());
+    // MuteSound(true);
+    if(localStorage.getItem("reload") == 1) {
+        Start(localStorage.getItem("mapId"));
+        if(localStorage.getItem("sound") == 'true') {
+            MuteSound();
+        }
+        if(localStorage.getItem("music") == 'true') {
+            MuteSong(); 
+        }
+    }
+});
+var game = new Game();
+function Start(mapId) {
+    $('#menu').hide();
+    var start = 0;
+    game.Init(mapId);
+}
+/*function Credits() {$('#menu').html($('#credits').html());}*/
+function SelectMap() {
+    $('#menu').html($('#selectMap').html());
+}
+function Menu() {
+    $('#menu').html($('#menu_content').html());
+}
+function MuteSound() {
+    if(!game.soundLoader.muted) {
+        //document.getElementById("song").volume = 0.0; 
+        game.soundLoader.muted = true;
+        localStorage.setItem("sound", game.soundLoader.muted);
+        $('#muteSound').html('<img src="img/box_unchecked.png"/>Sound');
+    } else {
+        //document.getElementById("song").volume = 0.4; 
+        game.soundLoader.muted = false;
+        localStorage.setItem("sound", game.soundLoader.muted);
+        $('#muteSound').html('<img src="img/box_checked.png"/>Sound');
+    }
+}
+function MuteSong() {
+    if(!game.songMuted) {
+        game.songMuted = true;
+        document.getElementById("song").volume = 0.0; 
+        $('#muteSong').html('<img src="img/box_unchecked.png"/>Music');
+    } else {
+        game.songMuted = false;
+        document.getElementById("song").volume = 0.4; 
+        $('#muteSong').html('<img src="img/box_checked.png"/>Music');
+    }
+}
+</script>
+</html>
